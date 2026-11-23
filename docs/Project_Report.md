@@ -34,3 +34,4 @@ The demonstration application is NGINX, deployed in the `demo-app` namespace and
 ## 5. Conclusion
 
 The project demonstrates how Terraform can automate cloud infrastructure provisioning and how ArgoCD can manage Kubernetes application deployments using Git as the desired-state source. It provides practical experience with AWS, Terraform, K3s, Kubernetes and GitOps concepts such as automated synchronization, self-healing and version-controlled configuration.
+

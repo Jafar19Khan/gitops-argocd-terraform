@@ -109,3 +109,4 @@ See [Screenshots README](screenshots/README.md).
 ## Resume Highlight
 
 Implemented a GitOps workflow using ArgoCD and Kubernetes, with AWS infrastructure provisioned through Terraform and application manifests managed in GitHub.
+
