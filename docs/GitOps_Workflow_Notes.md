@@ -1,43 +1,30 @@
-﻿# GitOps Workflow Notes
+# GitOps Workflow Notes
 
-## Git as the Desired-State Source
+## Git as the desired-state source
 
-In this project, Kubernetes application manifests are maintained in GitHub. The repository contains the desired configuration for the application.
+Kubernetes application manifests are maintained in GitHub. These files describe the intended state of the application. Argo CD monitors the configured repository revision and manifest directory, compares the Git configuration with live Kubernetes resources, and synchronizes differences according to the Application policy.
 
-ArgoCD monitors the configured repository revision and manifest directory. It compares the configuration in Git with the live Kubernetes resources and synchronizes differences according to the Application sync policy.
+## Application source
 
-## ArgoCD Application
-
-The project defines the ArgoCD Application in `argocd/application.yaml`.
-
-Its source configuration points to:
+`argocd/application.yaml` points to:
 
 - Repository: `https://github.com/Jafar19Khan/gitops-argocd-terraform.git`
 - Revision: `HEAD`
-- Manifest directory: `k8s-manifests`
+- Manifest path: `k8s-manifests`
+- Destination namespace: `demo-app`
 
-The destination is the local Kubernetes cluster, with the application deployed in the `demo-app` namespace.
+## Automated synchronization
 
-## Automated Synchronization
+Automated sync is enabled. When a manifest change is committed and pushed to the tracked branch, Argo CD can detect the new desired state and apply it to Kubernetes.
 
-Automated synchronization is enabled in the ArgoCD Application configuration.
+## Self-healing
 
-When application manifests are updated and committed to the tracked Git repository, ArgoCD can detect the updated desired state and synchronize the Kubernetes resources.
-
-## Self-Healing
-
-The Application has `selfHeal: true` enabled.
-
-If a managed resource is changed directly in the cluster and differs from the configuration in Git, ArgoCD can reconcile it with the repository-defined desired state.
+`selfHeal: true` enables Argo CD to reconcile supported live changes that diverge from the Git-defined state.
 
 ## Pruning
 
-The Application has `prune: true` enabled.
+`prune: true` allows Argo CD to delete managed resources that have been removed from the Git manifests when the application is synchronized.
 
-When a resource tracked by the Application is removed from the Git manifests, ArgoCD can remove the corresponding managed resource during synchronization.
+## Git-based rollback
 
-## Git-Based Rollback
-
-Git history provides a record of configuration changes. A previous change can be reversed by creating a new commit with `git revert <commit>` and pushing that commit to the tracked branch.
-
-ArgoCD can then synchronize the reverted configuration from Git. This keeps the change history available instead of rewriting shared repository history.
+Git history provides an auditable record of configuration changes. A previous change can be reversed with a new commit using `git revert <commit>` and pushing that commit. Argo CD then reconciles the reverted configuration. This preserves shared branch history instead of rewriting it.

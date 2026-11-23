@@ -1,4 +1,4 @@
-﻿terraform {
+terraform {
   required_version = ">= 1.5.0"
   required_providers {
     aws = {
@@ -71,14 +71,14 @@ resource "aws_security_group" "gitops_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allowed_ssh_cidr]
   }
 
   ingress {
     from_port   = 30443
     to_port     = 30443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allowed_ssh_cidr]
   }
 
   ingress {
@@ -106,7 +106,7 @@ resource "aws_instance" "k3s_argocd_server" {
   user_data                   = file("${path.module}/user_data.sh")
 
   root_block_device {
-    volume_size           = 15
+    volume_size           = var.root_volume_size
     volume_type           = "gp3"
     delete_on_termination = true
   }

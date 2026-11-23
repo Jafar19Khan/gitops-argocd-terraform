@@ -1,37 +1,38 @@
-﻿# Project Report
+# GitOps Continuous Delivery with Argo CD and Terraform
+
+**Candidate:** Jafar Ali Khan  
+**Internship track:** Project 10 — GitOps Workflow using ArgoCD on Kubernetes  
+**Repository:** https://github.com/Jafar19Khan/gitops-argocd-terraform  
+**Cloud region:** AWS Asia Pacific (Mumbai), `ap-south-1`
 
 ## 1. Introduction
 
-This project, GitOps Continuous Delivery Pipeline with ArgoCD and Terraform, demonstrates how Kubernetes application deployment can be managed through a Git repository. The infrastructure is hosted on AWS, and a single-node K3s cluster runs on an EC2 instance.
+This project demonstrates a GitOps-based deployment workflow for a Kubernetes application. Terraform provisions the AWS infrastructure, while Argo CD continuously monitors Kubernetes manifests stored in GitHub and reconciles the live cluster with the desired configuration.
 
 ## 2. Abstract
 
-The project uses Terraform to provision AWS networking and compute resources. The EC2 instance is configured to install K3s and ArgoCD through its startup script. Kubernetes application manifests are maintained in GitHub, and ArgoCD monitors the configured repository path to synchronize the desired application state with the cluster.
-
-The demonstration application is NGINX, deployed in the `demo-app` namespace and exposed through a Kubernetes NodePort service.
+A dedicated AWS VPC and EC2 instance host a single-node K3s Kubernetes cluster. The EC2 bootstrap script installs K3s and Argo CD. An Argo CD Application is configured to watch the repository's `k8s-manifests/` directory and deploy an NGINX workload into the `demo-app` namespace. Automated synchronization, self-healing and pruning demonstrate core GitOps capabilities.
 
 ## 3. Tools Used
 
-- **Amazon Web Services (AWS):** Cloud infrastructure
-- **Terraform:** Infrastructure as Code
-- **Ubuntu 22.04 LTS:** Operating system
-- **K3s:** Lightweight Kubernetes cluster
-- **Kubernetes:** Container orchestration
-- **ArgoCD:** GitOps continuous delivery controller
-- **GitHub:** Repository for Kubernetes manifests
-- **NGINX:** Sample web application
+- Amazon Web Services (VPC, subnet, Internet Gateway, route table and EC2)
+- Terraform (Infrastructure as Code)
+- Ubuntu 22.04 LTS and K3s
+- Kubernetes (Deployment, Service and Namespace)
+- Argo CD (GitOps reconciliation)
+- Git and GitHub (version control and desired state)
+- NGINX (sample web workload)
 
-## 4. Steps Involved in Building the Project
+## 4. Steps Involved
 
-1. Created AWS infrastructure using Terraform, including a VPC, public subnet, Internet Gateway, route table, security group and EC2 instance.
-2. Configured the EC2 startup script to install K3s and deploy ArgoCD.
+1. Defined AWS network and compute resources using Terraform.
+2. Used EC2 user data to install K3s and deploy Argo CD.
 3. Created Kubernetes manifests for the application namespace, NGINX Deployment and NodePort Service.
-4. Configured an ArgoCD Application to monitor the GitHub repository and the `k8s-manifests` directory.
-5. Enabled automated synchronization, pruning and self-healing in the ArgoCD Application configuration.
-6. Updated the desired replica count in the Git repository from 2 to 4. As documented in the internship execution report, ArgoCD detected the Git change and reconciled the application to four replicas.
-7. Captured screenshots showing infrastructure provisioning, Kubernetes and ArgoCD status, application access and infrastructure teardown.
+4. Registered an Argo CD Application pointing to the GitHub repository and `k8s-manifests/` path.
+5. Enabled automated synchronization, pruning and self-healing.
+6. Committed an application replica-count change to Git and observed Argo CD reconcile the workload.
+7. Verified cluster status, Argo CD health, browser access and infrastructure teardown using the supplied screenshots.
 
 ## 5. Conclusion
 
-The project demonstrates how Terraform can automate cloud infrastructure provisioning and how ArgoCD can manage Kubernetes application deployments using Git as the desired-state source. It provides practical experience with AWS, Terraform, K3s, Kubernetes and GitOps concepts such as automated synchronization, self-healing and version-controlled configuration.
-
+The project provided practical experience with Terraform-based AWS provisioning, Kubernetes workload management and GitOps delivery using Argo CD. It demonstrates how version-controlled manifests can act as the desired state for a cluster and how automated reconciliation reduces manual deployment steps. The implementation is a single-node educational lab rather than a production high-availability environment.

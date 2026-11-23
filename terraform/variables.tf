@@ -11,8 +11,9 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  description = "Existing EC2 key pair name"
+  description = "Optional existing EC2 key pair name; leave empty to omit SSH key-based access"
   type        = string
+  default     = ""
 }
 
 variable "allowed_ssh_cidr" {

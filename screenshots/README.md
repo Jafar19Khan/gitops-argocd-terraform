@@ -1,11 +1,11 @@
-﻿# Screenshots & Demo Proof
+# Execution Evidence
 
-The following screenshots are included in this folder:
+These screenshots were supplied with the project archive and are retained as the project's execution evidence.
 
-1. `01-terraform-apply.png` — Terraform apply completion and outputs showing the provisioned EC2 instance.
-2. `02-k3s-argocd-pods.png` — Terminal showing K3s node and ArgoCD pod status.
-3. `03-argocd-synced-healthy.png` — ArgoCD UI showing the application Synced and Healthy.
-4. `04-live-app-browser.png` — Browser showing the live sample application.
-5. `05-terraform-destroy.png` — Terraform infrastructure teardown.
+1. `01-terraform-apply.png` — Terraform apply completion and output endpoints.
+2. `02-k3s-argocd-pods.png` — K3s node and Argo CD / workload pod status.
+3. `03-argocd-synced-healthy.png` — Argo CD UI showing the application as Synced and Healthy.
+4. `04-live-app-browser.png` — NGINX welcome page accessed through the NodePort service.
+5. `05-terraform-destroy.png` — Terraform destroy completion.
 
-These screenshots document the project execution evidence. Do not replace them with fabricated screenshots.
+Screenshots are evidence of the recorded run, not a guarantee that the cloud environment is currently online. They have not been fabricated.
