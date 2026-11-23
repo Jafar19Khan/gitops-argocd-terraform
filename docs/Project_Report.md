@@ -1,30 +1,36 @@
-# Project Report
+﻿# Project Report
 
 ## 1. Introduction
-This project demonstrates a GitOps workflow for deploying and managing a Kubernetes application using ArgoCD. Infrastructure is provisioned on AWS with Terraform, while K3s provides a lightweight Kubernetes cluster on a single EC2 instance.
+
+This project, GitOps Continuous Delivery Pipeline with ArgoCD and Terraform, demonstrates how Kubernetes application deployment can be managed through a Git repository. The infrastructure is hosted on AWS, and a single-node K3s cluster runs on an EC2 instance.
 
 ## 2. Abstract
-The solution provisions an AWS EC2 instance and configures K3s and ArgoCD through automated bootstrap. Application Kubernetes manifests are stored in GitHub, which acts as the desired-state source. ArgoCD continuously observes the repository and reconciles the cluster to the declared configuration, enabling repeatable deployments and drift correction.
+
+The project uses Terraform to provision AWS networking and compute resources. The EC2 instance is configured to install K3s and ArgoCD through its startup script. Kubernetes application manifests are maintained in GitHub, and ArgoCD monitors the configured repository path to synchronize the desired application state with the cluster.
+
+The demonstration application is NGINX, deployed in the `demo-app` namespace and exposed through a Kubernetes NodePort service.
 
 ## 3. Tools Used
-- **AWS EC2:** Hosts the single-node Kubernetes environment.
-- **Terraform:** Infrastructure-as-Code for repeatable provisioning and teardown.
-- **K3s:** Lightweight Kubernetes distribution.
-- **Kubernetes:** Runs and manages the application workload.
-- **ArgoCD:** GitOps controller that monitors Git and synchronizes manifests.
-- **GitHub:** Version-controlled source of desired application state.
-- **Docker/NGINX:** Container image and web server used for the demonstration application.
+
+- **Amazon Web Services (AWS):** Cloud infrastructure
+- **Terraform:** Infrastructure as Code
+- **Ubuntu 22.04 LTS:** Operating system
+- **K3s:** Lightweight Kubernetes cluster
+- **Kubernetes:** Container orchestration
+- **ArgoCD:** GitOps continuous delivery controller
+- **GitHub:** Repository for Kubernetes manifests
+- **NGINX:** Sample web application
 
 ## 4. Steps Involved in Building the Project
-1. Configure Terraform variables for AWS region, EC2 key pair, and restricted SSH CIDR.
-2. Run Terraform initialization, validation, plan, and apply to provision EC2 and networking rules.
-3. EC2 user-data installs K3s, waits for the Kubernetes node to become Ready, and installs ArgoCD.
-4. Configure ArgoCD server access and verify cluster and ArgoCD pod readiness.
-5. Push the Kubernetes namespace, deployment, and service manifests to the GitHub repository.
-6. Apply the ArgoCD Application manifest to connect ArgoCD to the repository path.
-7. Verify the application reports Synced and Healthy and access the sample app through its NodePort.
-8. Change the desired replica count or image in Git, commit and push, then observe ArgoCD auto-sync the change.
-9. Capture evidence and run `terraform destroy` to remove provisioned infrastructure and reduce ongoing costs.
+
+1. Created AWS infrastructure using Terraform, including a VPC, public subnet, Internet Gateway, route table, security group and EC2 instance.
+2. Configured the EC2 startup script to install K3s and deploy ArgoCD.
+3. Created Kubernetes manifests for the application namespace, NGINX Deployment and NodePort Service.
+4. Configured an ArgoCD Application to monitor the GitHub repository and the `k8s-manifests` directory.
+5. Enabled automated synchronization, pruning and self-healing in the ArgoCD Application configuration.
+6. Updated the desired replica count in the Git repository from 2 to 4. As documented in the internship execution report, ArgoCD detected the Git change and reconciled the application to four replicas.
+7. Captured screenshots showing infrastructure provisioning, Kubernetes and ArgoCD status, application access and infrastructure teardown.
 
 ## 5. Conclusion
-The project demonstrates infrastructure automation and a pull-based GitOps deployment model. Terraform makes the cloud environment reproducible, while ArgoCD continuously reconciles Kubernetes workloads against Git. The workflow provides a practical foundation for version-controlled deployments, self-healing, and controlled rollback through Git history.
+
+The project demonstrates how Terraform can automate cloud infrastructure provisioning and how ArgoCD can manage Kubernetes application deployments using Git as the desired-state source. It provides practical experience with AWS, Terraform, K3s, Kubernetes and GitOps concepts such as automated synchronization, self-healing and version-controlled configuration.
